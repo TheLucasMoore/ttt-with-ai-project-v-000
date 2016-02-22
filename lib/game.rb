@@ -39,8 +39,7 @@ class Game
   end
 
   def draw?
-    return true if @board.full? && (self.won? == false)
-    false
+    @board.full? && !won?
   end
 
   def winner
@@ -50,10 +49,11 @@ class Game
 
   def turn
     loop do
-      puts "It's player #{current_player.token}'s move"
+      puts "It's player #{current_player.token}'s move. Enter a number 1-9"
       move = current_player.move(board)
       if @board.valid_move?(move)
         @board.update(move, current_player)
+        @board.display
         break
       end
       puts 'Invalid move.  Please try again.'
@@ -62,8 +62,10 @@ class Game
 
   def play
     turn until self.over?
-    puts "Congratulations #{@winner}!" if @winner
-    puts "Cats Game!" if draw?
-    @board.display
+    if won?
+    puts "Congratulations #{@winner}!"
+    elsif draw?
+    puts "Cats Game!"
     end
+  end
 end
