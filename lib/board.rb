@@ -8,7 +8,7 @@ class Board
 
 	def reset!
 		#How the board looks at the start of a game
-		@cells = [" ", " ", " ", " ", " ", " ", " ", " ", " "]
+		@cells = Array.new(9, " ")
 	end
 
 	def display
@@ -27,15 +27,7 @@ class Board
 
 	def turn_count
 		#keeps track of the number of moves that have been played
-		counter = 0
-		cells.each do |count|
-			if count == "X"
-				counter +=1
-			elsif count == "O"
-				counter +=1
-			end
-		end
-		counter
+		cells.count {|cell| cell == "X" || cell == "O"}
 	end
 
 	def update(position, player)
@@ -51,13 +43,8 @@ class Board
 
 	def taken?(position)
 		#returns true/false for a specific positon on the board
-		if cells[position.to_i-1] == "X"
-			return true
-		elsif cells[position.to_i-1] == "O"
-			return true
-		elsif cells[position.to_i-1] == " "
-			return false
-		end
+		#Refactored to simplify. Uses implicit return values of boolean expressions
+		cells[position.to_i-1] == "X" || cells[position.to_i-1] == "O"
 	end
 
 	def valid_move?(position)
